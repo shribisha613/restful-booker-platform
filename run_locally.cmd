@@ -10,23 +10,27 @@ echo ####                               ####
 echo #######################################
 echo:
 
-for /f "delims=" %%a in ('dir auth\target\*.jar /B /O:D') do set "auth_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev auth/target/%auth_jar% > auth.log
 
-for /f "delims=" %%a in ('dir booking\target\*.jar /B /O:D') do set "booking_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev booking/target/%booking_jar% > booking.log
+@echo off
 
-for /f "delims=" %%a in ('dir room\target\*.jar /B /O:D') do set "room_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev room/target/%room_jar% > room.log
+for %%a in (auth\target\*-exec.jar) do set "auth_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%auth_jar%" > auth.log 2>&1
 
-for /f "delims=" %%a in ('dir report\target\*.jar /B /O:D') do set "report_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev report/target/%report_jar% > report.log
+for %%a in (booking\target\*-exec.jar) do set "booking_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%booking_jar%" > booking.log 2>&1
 
-for /f "delims=" %%a in ('dir branding\target\*.jar /B /O:D') do set "branding_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev branding/target/%branding_jar% > branding.log
+for %%a in (room\target\*-exec.jar) do set "room_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%room_jar%" > room.log 2>&1
 
-for /f "delims=" %%a in ('dir message\target\*.jar /B /O:D') do set "message_jar=%%a"
-START /B java -jar -Dspring.profiles.active=dev message/target/%message_jar% > message.log &
+for %%a in (report\target\*-exec.jar) do set "report_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%report_jar%" > report.log 2>&1
+
+for %%a in (branding\target\*-exec.jar) do set "branding_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%branding_jar%" > branding.log 2>&1
+
+for %%a in (message\target\*-exec.jar) do set "message_jar=%%a"
+START /B java -Dspring.profiles.active=dev -jar "%message_jar%" > message.log 2>&1
+
 
 cd assets
 START /B npm run dev
